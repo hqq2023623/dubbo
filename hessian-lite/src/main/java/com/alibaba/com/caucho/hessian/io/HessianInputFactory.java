@@ -71,7 +71,8 @@ public class HessianInputFactory {
         int code = is.read();
 
         int major = is.read();
-        int minor = is.read();
+//        int minor = is.read();
+        is.read();
 
         switch (code) {
             case 'c':

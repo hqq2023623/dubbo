@@ -28,7 +28,7 @@ public class RpcClient extends AbstractClientRunnable {
     private static int length = 100;
 
     static {
-        length = Integer.valueOf(System.getProperty("message.length", "1000"));
+        length = Integer.parseInt(System.getProperty("message.length", "1000"));
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
             sb.append("a");

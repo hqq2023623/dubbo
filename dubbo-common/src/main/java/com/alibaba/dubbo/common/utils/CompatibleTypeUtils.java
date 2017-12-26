@@ -66,19 +66,19 @@ public class CompatibleTypeUtils {
             } else if (type == BigDecimal.class) {
                 return new BigDecimal(string);
             } else if (type == Short.class || type == short.class) {
-                return new Short(string);
+                return Short.valueOf(string);
             } else if (type == Integer.class || type == int.class) {
-                return new Integer(string);
+                return Integer.valueOf(string);
             } else if (type == Long.class || type == long.class) {
-                return new Long(string);
+                return Long.valueOf(string);
             } else if (type == Double.class || type == double.class) {
-                return new Double(string);
+                return Double.valueOf(string);
             } else if (type == Float.class || type == float.class) {
-                return new Float(string);
+                return Float.valueOf(string);
             } else if (type == Byte.class || type == byte.class) {
-                return new Byte(string);
+                return Byte.valueOf(string);
             } else if (type == Boolean.class || type == boolean.class) {
-                return new Boolean(string);
+                return Boolean.valueOf(string);
             } else if (type == Date.class) {
                 try {
                     return new SimpleDateFormat(DATE_FORMAT).parse((String) value);

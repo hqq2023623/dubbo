@@ -65,16 +65,14 @@ public class Applications extends Restful {
                 if (overrides != null && overrides.size() > 0
                         && applications != null && applications.size() > 0) {
                     for (String a : applications) {
-                        if (overrides != null && overrides.size() > 0) {
-                            List<Override> appOverrides = new ArrayList<Override>();
-                            for (Override override : overrides) {
-                                if (override.isMatch(service, null, a)) {
-                                    appOverrides.add(override);
-                                }
+                        List<Override> appOverrides = new ArrayList<Override>();
+                        for (Override override : overrides) {
+                            if (override.isMatch(service, null, a)) {
+                                appOverrides.add(override);
                             }
-                            Collections.sort(appOverrides, OverrideUtils.OVERRIDE_COMPARATOR);
-                            application2Overrides.put(a, appOverrides);
                         }
+                        Collections.sort(appOverrides, OverrideUtils.OVERRIDE_COMPARATOR);
+                        application2Overrides.put(a, appOverrides);
                     }
                 }
                 context.put("overrides", application2Overrides);

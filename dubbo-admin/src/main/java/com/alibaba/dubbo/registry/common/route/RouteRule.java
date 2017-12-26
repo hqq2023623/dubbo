@@ -158,7 +158,7 @@ public class RouteRule {
             return parse(route.getRule());
         }
 
-        return parse(route == null ? null : route.getMatchRule(), route == null ? null : route.getFilterRule());
+        return parse(route.getMatchRule() , route.getFilterRule());
     }
 
     public static RouteRule parse(String whenRule, String thenRule) throws ParseException {

@@ -77,7 +77,7 @@ public class ActiveLimitFilter implements Filter {
         } finally {
             if (max > 0) {
                 synchronized (count) {
-                    count.notify();
+                    count.notifyAll();
                 }
             }
         }

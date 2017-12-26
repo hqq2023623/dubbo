@@ -474,7 +474,7 @@ public class HessianDebugState implements Hessian2Constants {
                 case 0xbd:
                 case 0xbe:
                 case 0xbf: {
-                    Integer value = new Integer(ch - 0x90);
+                    Integer value = Integer.valueOf(ch - 0x90);
 
                     if (isShift(value))
                         return shift(value);
@@ -539,7 +539,7 @@ public class HessianDebugState implements Hessian2Constants {
                 case 0xed:
                 case 0xee:
                 case 0xef: {
-                    Long value = new Long(ch - 0xe0);
+                    Long value = Long.valueOf(ch - 0xe0);
 
                     if (isShift(value))
                         return shift(value);
@@ -840,7 +840,7 @@ public class HessianDebugState implements Hessian2Constants {
             _value = 256 * _value + (ch & 0xff);
 
             if (++_length == 4) {
-                Integer value = new Integer(_value);
+                Integer value = Integer.valueOf(_value);
 
                 if (_next.isShift(value))
                     return _next.shift(value);
@@ -879,7 +879,7 @@ public class HessianDebugState implements Hessian2Constants {
             _value = 256 * _value + (ch & 0xff);
 
             if (++_length == 8) {
-                Long value = new Long(_value);
+                Long value = Long.valueOf(_value);
 
                 if (_next.isShift(value))
                     return _next.shift(value);

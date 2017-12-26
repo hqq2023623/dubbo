@@ -253,7 +253,8 @@ public class BasicDeserializer extends AbstractDeserializer {
                         return readLengthList(in, length);
 
                     default:
-                        String type = in.readType();
+//                        String type = in.readType();
+                        in.readType();
                         length = in.readLength();
 
                         return readList(in, length);

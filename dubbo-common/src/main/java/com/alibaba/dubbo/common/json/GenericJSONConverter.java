@@ -128,7 +128,7 @@ public class GenericJSONConverter implements JSONConverter {
 
         d = new Decoder() {
             public Object decode(Object jv) {
-                if (jv instanceof Boolean) return ((Boolean) jv).booleanValue();
+                if (jv instanceof Boolean) return jv;
                 return false;
             }
         };

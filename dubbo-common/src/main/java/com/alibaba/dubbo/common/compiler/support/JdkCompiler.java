@@ -237,7 +237,7 @@ public class JdkCompiler extends AbstractCompiler {
         }
     }
 
-    private final class ClassLoaderImpl extends ClassLoader {
+    private final static class ClassLoaderImpl extends ClassLoader {
 
         private final Map<String, JavaFileObject> classes = new HashMap<String, JavaFileObject>();
 

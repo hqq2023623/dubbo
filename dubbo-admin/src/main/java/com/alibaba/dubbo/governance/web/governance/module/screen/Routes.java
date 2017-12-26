@@ -448,7 +448,7 @@ public class Routes extends Restful {
      * @param context
      */
     public void routeselect(Map<String, Object> context) {
-        long rid = Long.valueOf((String) context.get("id"));
+        long rid = Long.parseLong((String) context.get("id"));
         context.put("id", rid);
 
         Route route = routeService.findRoute(rid);

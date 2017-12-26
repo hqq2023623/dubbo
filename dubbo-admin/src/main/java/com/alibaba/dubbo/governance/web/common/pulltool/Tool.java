@@ -340,7 +340,7 @@ public class Tool {
         if (timestamp == null || timestamp.length() == 0) {
             return "";
         }
-        return formatDate(new Date(Long.valueOf(timestamp)));
+        return formatDate(new Date(Long.parseLong(timestamp)));
     }
 
     //时间格式化

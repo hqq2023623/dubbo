@@ -48,14 +48,14 @@ public class Servicestatus {
     private HttpServletResponse response;
 
     public void execute(Map<String, Object> context) throws Exception {
-        String uri = request.getRequestURI();
-        String contextPath = request.getContextPath();
-        if (contextPath != null && !"/".equals(contextPath)) {
-            uri = uri.substring(contextPath.length());
-        }
-        if (uri.startsWith("/status/")) {
-            uri = uri.substring("/status/".length());
-        }
+//        String uri = request.getRequestURI();
+//        String contextPath = request.getContextPath();
+//        if (contextPath != null && !"/".equals(contextPath)) {
+//            uri = uri.substring(contextPath.length());
+//        }
+//        if (uri.startsWith("/status/")) {
+//            uri = uri.substring("/status/".length());
+//        }
 //        Map<String, String> providers = registryCache.getServices().get(uri);
 //        if (providers == null || providers.size() == 0) {
 //            providers = providerDAO.lookup(uri);

@@ -362,7 +362,7 @@ public final class JavaBeanSerializeUtil {
         } else if (double.class.equals(cl) || Double.class.equals(cl)) {
             return Double.valueOf((double) 0);
         } else if (char.class.equals(cl) || Character.class.equals(cl)) {
-            return new Character((char) 0);
+            return Character.valueOf('0');
         } else {
             return null;
         }

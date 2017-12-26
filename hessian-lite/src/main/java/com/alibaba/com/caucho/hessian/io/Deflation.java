@@ -71,7 +71,8 @@ public class Deflation extends HessianEnvelope {
 
     public Hessian2Input unwrap(Hessian2Input in)
             throws IOException {
-        int version = in.readEnvelope();
+//        int version = in.readEnvelope();
+        in.readEnvelope();
 
         String method = in.readMethod();
 

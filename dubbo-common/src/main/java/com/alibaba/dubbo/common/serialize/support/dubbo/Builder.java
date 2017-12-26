@@ -72,9 +72,12 @@ public abstract class Builder<T> implements GenericDataFlags {
                 out.write0(OBJECT_STREAM);
                 UnsafeByteArrayOutputStream bos = new UnsafeByteArrayOutputStream();
                 CompactedObjectOutputStream oos = new CompactedObjectOutputStream(bos);
-                oos.writeObject(obj);
-                oos.flush();
-                bos.close();
+                try {
+                    oos.writeObject(obj);
+                    oos.flush();
+                } finally {
+                    oos.close();
+                }
                 byte[] b = bos.toByteArray();
                 out.writeUInt(b.length);
                 out.write0(b, 0, b.length);
@@ -95,6 +98,8 @@ public abstract class Builder<T> implements GenericDataFlags {
                 return (Serializable) ois.readObject();
             } catch (ClassNotFoundException e) {
                 throw new IOException(StringUtils.toString(e));
+            } finally {
+                ois.close();
             }
         }
     };
@@ -145,7 +150,7 @@ public abstract class Builder<T> implements GenericDataFlags {
         }
     };
     // Must be protected. by qian.lei
-    protected static Logger logger = LoggerFactory.getLogger(Builder.class);
+    protected static final Logger logger = LoggerFactory.getLogger(Builder.class);
     static final Builder<Object[]> GenericArrayBuilder = new AbstractObjectBuilder<Object[]>() {
         @Override
         public Class<Object[]> getType() {

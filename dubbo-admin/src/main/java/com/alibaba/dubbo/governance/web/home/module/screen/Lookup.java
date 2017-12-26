@@ -51,7 +51,7 @@ public class Lookup extends Restful {
         if (inf.contains(":")) {
             int idx = inf.lastIndexOf(':');
             version = inf.substring(idx + 1, inf.length());
-            inf = inf.substring(idx);
+//            inf = inf.substring(idx);
         }
 
         String parameters = request.getParameter("parameters");

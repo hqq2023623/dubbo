@@ -78,14 +78,14 @@ public class AccessLogFilter implements Filter {
 
     private final ScheduledExecutorService logScheduled = Executors.newScheduledThreadPool(2, new NamedThreadFactory("Dubbo-Access-Log", true));
 
+    private final Object logScheduledLock = new Object();
+
     private volatile ScheduledFuture<?> logFuture = null;
 
     private void init() {
-        if (logFuture == null) {
-            synchronized (logScheduled) {
-                if (logFuture == null) {
-                    logFuture = logScheduled.scheduleWithFixedDelay(new LogTask(), LOG_OUTPUT_INTERVAL, LOG_OUTPUT_INTERVAL, TimeUnit.MILLISECONDS);
-                }
+        synchronized (logScheduledLock) {
+            if (logFuture == null) {
+                logFuture = logScheduled.scheduleWithFixedDelay(new LogTask(), LOG_OUTPUT_INTERVAL, LOG_OUTPUT_INTERVAL, TimeUnit.MILLISECONDS);
             }
         }
     }
@@ -156,47 +156,43 @@ public class AccessLogFilter implements Filter {
 
     private class LogTask implements Runnable {
         public void run() {
-            try {
-                if (logQueue != null && logQueue.size() > 0) {
-                    for (Map.Entry<String, Set<String>> entry : logQueue.entrySet()) {
-                        try {
-                            String accesslog = entry.getKey();
-                            Set<String> logSet = entry.getValue();
-                            File file = new File(accesslog);
-                            File dir = file.getParentFile();
-                            if (null != dir && !dir.exists()) {
-                                dir.mkdirs();
-                            }
-                            if (logger.isDebugEnabled()) {
-                                logger.debug("Append log to " + accesslog);
-                            }
-                            if (file.exists()) {
-                                String now = new SimpleDateFormat(FILE_DATE_FORMAT).format(new Date());
-                                String last = new SimpleDateFormat(FILE_DATE_FORMAT).format(new Date(file.lastModified()));
-                                if (!now.equals(last)) {
-                                    File archive = new File(file.getAbsolutePath() + "." + last);
-                                    file.renameTo(archive);
-                                }
-                            }
-                            FileWriter writer = new FileWriter(file, true);
-                            try {
-                                for (Iterator<String> iterator = logSet.iterator();
-                                     iterator.hasNext();
-                                     iterator.remove()) {
-                                    writer.write(iterator.next());
-                                    writer.write("\r\n");
-                                }
-                                writer.flush();
-                            } finally {
-                                writer.close();
-                            }
-                        } catch (Exception e) {
-                            logger.error(e.getMessage(), e);
+            if (logQueue != null && logQueue.size() > 0) {
+                for (Map.Entry<String, Set<String>> entry : logQueue.entrySet()) {
+                    try {
+                        String accesslog = entry.getKey();
+                        Set<String> logSet = entry.getValue();
+                        File file = new File(accesslog);
+                        File dir = file.getParentFile();
+                        if (null != dir && !dir.exists()) {
+                            dir.mkdirs();
                         }
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("Append log to " + accesslog);
+                        }
+                        if (file.exists()) {
+                            String now = new SimpleDateFormat(FILE_DATE_FORMAT).format(new Date());
+                            String last = new SimpleDateFormat(FILE_DATE_FORMAT).format(new Date(file.lastModified()));
+                            if (!now.equals(last)) {
+                                File archive = new File(file.getAbsolutePath() + "." + last);
+                                file.renameTo(archive);
+                            }
+                        }
+                        FileWriter writer = new FileWriter(file, true);
+                        try {
+                            for (Iterator<String> iterator = logSet.iterator();
+                                 iterator.hasNext();
+                                 iterator.remove()) {
+                                writer.write(iterator.next());
+                                writer.write("\r\n");
+                            }
+                            writer.flush();
+                        } finally {
+                            writer.close();
+                        }
+                    } catch (Exception e) {
+                        logger.error(e.getMessage(), e);
                     }
                 }
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
             }
         }
     }

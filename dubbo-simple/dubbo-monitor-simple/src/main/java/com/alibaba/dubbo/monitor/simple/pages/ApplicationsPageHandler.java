@@ -50,27 +50,27 @@ public class ApplicationsPageHandler implements PageHandler {
 
                 if (providers != null && providers.size() > 0
                         || consumers != null && consumers.size() > 0) {
-                    URL provider = (providers != null && providers.size() > 0 ? providers.iterator().next() : consumers.iterator().next());
+                    URL provider = (providers.size() > 0 ? providers.iterator().next() : consumers.iterator().next());
                     row.add(provider.getParameter("owner", "") + (provider.hasParameter("organization") ? " (" + provider.getParameter("organization") + ")" : ""));
                 } else {
                     row.add("");
                 }
 
-                int providersSize = providers == null ? 0 : providers.size();
+                int providersSize = providers.size();
                 providersCount += providersSize;
                 row.add(providersSize == 0 ? "<font color=\"blue\">No provider</font>" : "<a href=\"providers.html?application=" + application + "\">Providers(" + providersSize + ")</a>");
 
-                int consumersSize = consumers == null ? 0 : consumers.size();
+                int consumersSize = consumers.size();
                 consumersCount += consumersSize;
                 row.add(consumersSize == 0 ? "<font color=\"blue\">No consumer</font>" : "<a href=\"consumers.html?application=" + application + "\">Consumers(" + consumersSize + ")</a>");
 
                 Set<String> efferents = RegistryContainer.getInstance().getDependencies(application, false);
-                int efferentSize = efferents == null ? 0 : efferents.size();
+                int efferentSize = efferents.size();
                 efferentCount += efferentSize;
                 row.add(efferentSize == 0 ? "<font color=\"blue\">No dependency</font>" : "<a href=\"dependencies.html?application=" + application + "\">Depends On(" + efferentSize + ")</a>");
 
                 Set<String> afferents = RegistryContainer.getInstance().getDependencies(application, true);
-                int afferentSize = afferents == null ? 0 : afferents.size();
+                int afferentSize = afferents.size();
                 afferentCount += afferentSize;
                 row.add(afferentSize == 0 ? "<font color=\"blue\">No used</font>" : "<a href=\"dependencies.html?application=" + application + "&reverse=true\">Used By(" + afferentSize + ")</a>");
                 rows.add(row);

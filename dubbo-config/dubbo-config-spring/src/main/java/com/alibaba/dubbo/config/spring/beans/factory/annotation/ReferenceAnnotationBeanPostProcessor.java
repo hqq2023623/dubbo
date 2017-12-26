@@ -182,19 +182,17 @@ public class ReferenceAnnotationBeanPostProcessor extends InstantiationAwareBean
         // Quick check on the concurrent map first, with minimal locking.
         InjectionMetadata metadata = this.injectionMetadataCache.get(cacheKey);
         if (InjectionMetadata.needsRefresh(metadata, clazz)) {
-            synchronized (this.injectionMetadataCache) {
-                metadata = this.injectionMetadataCache.get(cacheKey);
-                if (InjectionMetadata.needsRefresh(metadata, clazz)) {
-                    if (metadata != null) {
-                        metadata.clear(pvs);
-                    }
-                    try {
-                        metadata = buildReferenceMetadata(clazz);
-                        this.injectionMetadataCache.put(cacheKey, metadata);
-                    } catch (NoClassDefFoundError err) {
-                        throw new IllegalStateException("Failed to introspect bean class [" + clazz.getName() +
-                                "] for reference metadata: could not find class that it depends on", err);
-                    }
+            metadata = this.injectionMetadataCache.get(cacheKey);
+            if (InjectionMetadata.needsRefresh(metadata, clazz)) {
+                if (metadata != null) {
+                    metadata.clear(pvs);
+                }
+                try {
+                    metadata = buildReferenceMetadata(clazz);
+                    this.injectionMetadataCache.put(cacheKey, metadata);
+                } catch (NoClassDefFoundError err) {
+                    throw new IllegalStateException("Failed to introspect bean class [" + clazz.getName() +
+                            "] for reference metadata: could not find class that it depends on", err);
                 }
             }
         }

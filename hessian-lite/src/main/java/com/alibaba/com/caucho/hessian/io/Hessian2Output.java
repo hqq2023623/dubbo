@@ -144,7 +144,7 @@ public class Hessian2Output
 
         if (SIZE < offset + 32) {
             flush();
-            offset = _offset;
+//            offset = _offset;
         }
 
         byte[] buffer = _buffer;

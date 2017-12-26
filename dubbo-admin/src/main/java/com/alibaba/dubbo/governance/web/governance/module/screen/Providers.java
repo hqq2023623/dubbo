@@ -122,8 +122,8 @@ public class Providers extends Restful {
     private void setSearchHistroy(Map<String, Object> context, String value) {
         //分析已有的cookie
         String separatorsB = "\\.\\.\\.\\.\\.\\.";
-        String newCookiev = value;
         Cookie[] cookies = request.getCookies();
+        StringBuilder newCookiev = new StringBuilder(value);
         for (Cookie c : cookies) {
             if (c.getName().equals("HISTORY")) {
                 String cookiev = c.getValue();
@@ -132,7 +132,7 @@ public class Providers extends Restful {
                 for (String v : values) {
                     if (count <= 10) {
                         if (!value.equals(v)) {
-                            newCookiev = newCookiev + separatorsB + v;
+                            newCookiev.append(separatorsB).append(v);
                         }
                     }
                     count++;
@@ -141,7 +141,7 @@ public class Providers extends Restful {
             }
         }
 
-        Cookie _cookie = new Cookie("HISTORY", newCookiev);
+        Cookie _cookie = new Cookie("HISTORY", newCookiev.toString());
         _cookie.setMaxAge(60 * 60 * 24 * 7); // 设置Cookie的存活时间为30分钟
         _cookie.setPath("/");
         response.addCookie(_cookie); // 写入客户端硬盘

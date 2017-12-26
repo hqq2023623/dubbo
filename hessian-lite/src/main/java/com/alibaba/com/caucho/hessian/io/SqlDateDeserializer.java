@@ -120,7 +120,7 @@ public class SqlDateDeserializer extends AbstractDeserializer {
             throw new IOException(_cl.getName() + " expects name.");
 
         try {
-            return _constructor.newInstance(new Object[]{new Long(initValue)});
+            return _constructor.newInstance(new Object[]{Long.valueOf(initValue)});
         } catch (Exception e) {
             throw new IOExceptionWrapper(e);
         }

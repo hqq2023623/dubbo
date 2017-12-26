@@ -162,7 +162,8 @@ public class X509Encryption extends HessianEnvelope {
         if (_cert == null)
             throw new IOException("X509Encryption.unwrap requires a certificate");
 
-        int version = in.readEnvelope();
+//        int version = in.readEnvelope();
+        in.readEnvelope();
 
         String method = in.readMethod();
 

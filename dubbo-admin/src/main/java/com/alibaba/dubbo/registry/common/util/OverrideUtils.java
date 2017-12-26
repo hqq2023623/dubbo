@@ -47,7 +47,7 @@ public class OverrideUtils {
                         weight.setAddress(o.getAddress());
                         weight.setId(o.getId());
                         weight.setService(o.getService());
-                        weight.setWeight(Integer.valueOf(entry.getValue()));
+                        weight.setWeight(Integer.parseInt(entry.getValue()));
                         weights.add(weight);
                     }
                 }

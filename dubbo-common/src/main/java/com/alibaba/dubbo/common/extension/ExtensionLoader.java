@@ -338,7 +338,8 @@ public class ExtensionLoader<T> {
         if (name == null || name.length() == 0)
             throw new IllegalArgumentException("Extension name == null");
         try {
-            return getExtensionClass(name) != null;
+            getExtensionClass(name);
+            return true;
         } catch (Throwable t) {
             return false;
         }
@@ -774,11 +775,11 @@ public class ExtensionLoader<T> {
                 // 有类型为URL的参数
                 if (urlTypeIndex != -1) {
                     // Null Point check
-                    String s = String.format("\nif (arg%d == null) throw new IllegalArgumentException(\"url == null\");",
+                    String s = String.format("%nif (arg%d == null) throw new IllegalArgumentException(\"url == null\");",
                             urlTypeIndex);
                     code.append(s);
 
-                    s = String.format("\n%s url = arg%d;", URL.class.getName(), urlTypeIndex);
+                    s = String.format("%n%s url = arg%d;", URL.class.getName(), urlTypeIndex);
                     code.append(s);
                 }
                 // 参数没有URL类型
@@ -808,10 +809,10 @@ public class ExtensionLoader<T> {
                     }
 
                     // Null point check
-                    String s = String.format("\nif (arg%d == null) throw new IllegalArgumentException(\"%s argument == null\");",
+                    String s = String.format("%nif (arg%d == null) throw new IllegalArgumentException(\"%s argument == null\");",
                             urlTypeIndex, pts[urlTypeIndex].getName());
                     code.append(s);
-                    s = String.format("\nif (arg%d.%s() == null) throw new IllegalArgumentException(\"%s argument %s() == null\");",
+                    s = String.format("%nif (arg%d.%s() == null) throw new IllegalArgumentException(\"%s argument %s() == null\");",
                             urlTypeIndex, attribMethod, pts[urlTypeIndex].getName(), attribMethod);
                     code.append(s);
 
@@ -841,9 +842,9 @@ public class ExtensionLoader<T> {
                 for (int i = 0; i < pts.length; ++i) {
                     if (pts[i].getName().equals("com.alibaba.dubbo.rpc.Invocation")) {
                         // Null Point check
-                        String s = String.format("\nif (arg%d == null) throw new IllegalArgumentException(\"invocation == null\");", i);
+                        String s = String.format("%nif (arg%d == null) throw new IllegalArgumentException(\"invocation == null\");", i);
                         code.append(s);
-                        s = String.format("\nString methodName = arg%d.getMethodName();", i);
+                        s = String.format("%nString methodName = arg%d.getMethodName();", i);
                         code.append(s);
                         hasInvocation = true;
                         break;
@@ -865,7 +866,7 @@ public class ExtensionLoader<T> {
                         } else {
                             if (!"protocol".equals(value[i]))
                                 if (hasInvocation)
-                                    getNameCode = String.format("url.getMethodParameter(methodName, \"%s\", \"%s\")", value[i], defaultExtName);
+                                    getNameCode = String.format("url.getMethodParameter(methodName, \"%s\", \"null\")", value[i]);
                                 else
                                     getNameCode = String.format("url.getParameter(\"%s\")", value[i]);
                             else
@@ -883,12 +884,12 @@ public class ExtensionLoader<T> {
                 }
                 code.append("\nString extName = ").append(getNameCode).append(";");
                 // check extName == null?
-                String s = String.format("\nif(extName == null) " +
+                String s = String.format("%nif(extName == null) " +
                                 "throw new IllegalStateException(\"Fail to get extension(%s) name from url(\" + url.toString() + \") use keys(%s)\");",
                         type.getName(), Arrays.toString(value));
                 code.append(s);
 
-                s = String.format("\n%s extension = (%<s)%s.getExtensionLoader(%s.class).getExtension(extName);",
+                s = String.format("%n%s extension = (%<s)%s.getExtensionLoader(%s.class).getExtension(extName);",
                         type.getName(), ExtensionLoader.class.getSimpleName(), type.getName());
                 code.append(s);
 

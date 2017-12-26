@@ -123,7 +123,7 @@ public class RouteUtils {
         final Map<String, String> consumerSample = ParseUtils.parseQuery("consumer.", consumerQueryUrl);
         final int index = consumerAddress.lastIndexOf(":");
         final String consumerHost;
-        if (consumerAddress != null && index != -1) {
+        if (index != -1) {
             consumerHost = consumerAddress.substring(0, index);
         } else {
             consumerHost = consumerAddress;
@@ -158,23 +158,21 @@ public class RouteUtils {
             // NOTE: 
             // <*方法>只配置 <no method key> 
             // method1方法匹配 <no method key> 和 <method = method1>, 此时要把<no method key>的Route的优先级降低即可
-            if (routes != null && routes.size() > 0) {
-                for (Route route : routes) {
-                    if (isSerivceNameMatched(route.getService(), serviceName)) {
-                        RouteRule rule = rules.get(route.getId());
-                        // 当满足when条件时
-                        if (rule != null && RouteRuleUtils.isMatchCondition(
-                                rule.getWhenCondition(), consumerSample, consumerSample)) {
-                            if (routed != null && !routed.contains(route)) {
-                                routed.add(route);
-                            }
-                            Map<String, RouteRule.MatchPair> then = rule.getThenCondition();
-                            if (then != null) {
-                                Map<String, Map<String, String>> tmp = getUrlsMatchedCondition(then, consumerSample, url2ProviderSample);
-                                // 如果规则的结果是空，则该规则无效，使用所有Provider
-                                if (route.isForce() || !tmp.isEmpty()) {
-                                    url2ProviderSample = tmp;
-                                }
+            for (Route route : routes) {
+                if (isSerivceNameMatched(route.getService(), serviceName)) {
+                    RouteRule rule = rules.get(route.getId());
+                    // 当满足when条件时
+                    if (rule != null && RouteRuleUtils.isMatchCondition(
+                            rule.getWhenCondition(), consumerSample, consumerSample)) {
+                        if (routed != null && !routed.contains(route)) {
+                            routed.add(route);
+                        }
+                        Map<String, RouteRule.MatchPair> then = rule.getThenCondition();
+                        if (then != null) {
+                            Map<String, Map<String, String>> tmp = getUrlsMatchedCondition(then, consumerSample, url2ProviderSample);
+                            // 如果规则的结果是空，则该规则无效，使用所有Provider
+                            if (route.isForce() || !tmp.isEmpty()) {
+                                url2ProviderSample = tmp;
                             }
                         }
                     }

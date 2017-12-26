@@ -50,7 +50,7 @@ public class HostsPageHandler implements PageHandler {
 
                 if (providers != null && providers.size() > 0
                         || consumers != null && consumers.size() > 0) {
-                    URL provider = (providers != null && providers.size() > 0 ? providers.iterator().next() : consumers.iterator().next());
+                    URL provider = (providers.size() > 0 ? providers.iterator().next() : consumers.iterator().next());
                     row.add(provider.getParameter(Constants.APPLICATION_KEY, ""));
                     row.add(provider.getParameter("owner", "") + (provider.hasParameter("organization") ? " (" + provider.getParameter("organization") + ")" : ""));
                 } else {
@@ -58,11 +58,11 @@ public class HostsPageHandler implements PageHandler {
                     row.add("");
                 }
 
-                int proviedSize = providers == null ? 0 : providers.size();
+                int proviedSize = providers.size();
                 providersCount += proviedSize;
                 row.add(proviedSize == 0 ? "<font color=\"blue\">No provider</font>" : "<a href=\"providers.html?host=" + host + "\">Providers(" + proviedSize + ")</a>");
 
-                int consumersSize = consumers == null ? 0 : consumers.size();
+                int consumersSize = consumers.size();
                 consumersCount += consumersSize;
                 row.add(consumersSize == 0 ? "<font color=\"blue\">No consumer</font>" : "<a href=\"consumers.html?host=" + host + "\">Consumers(" + consumersSize + ")</a>");
 

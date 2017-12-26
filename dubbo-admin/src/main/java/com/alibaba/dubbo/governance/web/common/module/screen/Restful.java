@@ -50,22 +50,54 @@ public abstract class Restful {
     }
 
     private static Object convertPrimitive(Class<?> cls, String value) {
-        if (cls == boolean.class || cls == Boolean.class) {
-            return value == null || value.length() == 0 ? false : Boolean.valueOf(value);
-        } else if (cls == byte.class || cls == Byte.class) {
-            return value == null || value.length() == 0 ? 0 : Byte.valueOf(value);
-        } else if (cls == char.class || cls == Character.class) {
-            return value == null || value.length() == 0 ? '\0' : value.charAt(0);
-        } else if (cls == short.class || cls == Short.class) {
-            return value == null || value.length() == 0 ? 0 : Short.valueOf(value);
-        } else if (cls == int.class || cls == Integer.class) {
-            return value == null || value.length() == 0 ? 0 : Integer.valueOf(value);
-        } else if (cls == long.class || cls == Long.class) {
-            return value == null || value.length() == 0 ? 0 : Long.valueOf(value);
-        } else if (cls == float.class || cls == Float.class) {
-            return value == null || value.length() == 0 ? 0 : Float.valueOf(value);
-        } else if (cls == double.class || cls == Double.class) {
-            return value == null || value.length() == 0 ? 0 : Double.valueOf(value);
+        boolean isEmpty = (value == null || value.length() == 0);
+        if (cls == boolean.class) {
+            return isEmpty ? false : Boolean.parseBoolean(value);
+        }
+        if (cls == Boolean.class) {
+            return isEmpty ? Boolean.FALSE : Boolean.valueOf(value);
+        }
+        if (cls == byte.class) {
+            return isEmpty ? 0 : Byte.parseByte(value);
+        }
+        if (cls == Byte.class) {
+            return isEmpty ? Byte.valueOf("0") : Byte.valueOf(value);
+        }
+        if (cls == char.class) {
+            return isEmpty ? '0' : value.charAt(0);
+        }
+        if (cls == Character.class) {
+            return isEmpty ? Character.valueOf('0') : Character.valueOf(value.charAt(0));
+        }
+        if (cls == short.class) {
+            return isEmpty ? 0 : Short.parseShort(value);
+        }
+        if (cls == Short.class) {
+            return isEmpty ? Short.valueOf("0") : Short.valueOf(value);
+        }
+        if (cls == int.class) {
+            return isEmpty ? 0 : Integer.parseInt(value);
+        }
+        if (cls == Integer.class) {
+            return isEmpty ? Integer.valueOf("0") : Integer.valueOf(value);
+        }
+        if (cls == long.class) {
+            return isEmpty ? 0 : Long.parseLong(value);
+        }
+        if (cls == Long.class) {
+            return isEmpty ? Long.valueOf("0") : Long.valueOf(value);
+        }
+        if (cls == float.class) {
+            return isEmpty ? 0 : Float.parseFloat(value);
+        }
+        if (cls == Float.class) {
+            return isEmpty ? Float.valueOf("0") : Float.valueOf(value);
+        }
+        if (cls == double.class) {
+            return isEmpty ? 0 : Double.parseDouble(value);
+        }
+        if (cls == Double.class) {
+            return isEmpty ? Double.valueOf("0") : Double.valueOf(value);
         }
         return value;
     }

@@ -278,8 +278,10 @@ public class HessianInput extends AbstractHessianInput {
         if (tag != 'r')
             error("expected hessian reply at " + codeName(tag));
 
-        int major = read();
-        int minor = read();
+//        int major = read();
+        read();
+//        int minor = read();
+        read();
 
         tag = read();
         if (tag == 'f')
@@ -311,9 +313,10 @@ public class HessianInput extends AbstractHessianInput {
         if (tag != 'r')
             error("expected hessian reply at " + codeName(tag));
 
-        int major = read();
-        int minor = read();
-
+//        int major = read();
+        read();
+//        int minor = read();
+        read();
         tag = read();
         if (tag == 'f')
             throw prepareFault();

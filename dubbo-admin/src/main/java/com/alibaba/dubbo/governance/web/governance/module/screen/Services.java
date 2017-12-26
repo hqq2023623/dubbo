@@ -83,15 +83,13 @@ public class Services extends Restful {
         if (overrides != null && overrides.size() > 0
                 && services != null && services.size() > 0) {
             for (String s : services) {
-                if (overrides != null && overrides.size() > 0) {
-                    for (Override override : overrides) {
-                        List<Override> serOverrides = new ArrayList<Override>();
-                        if (override.isMatch(s, address, application)) {
-                            serOverrides.add(override);
-                        }
-                        Collections.sort(serOverrides, OverrideUtils.OVERRIDE_COMPARATOR);
-                        service2Overrides.put(s, serOverrides);
+                for (Override override : overrides) {
+                    List<Override> serOverrides = new ArrayList<Override>();
+                    if (override.isMatch(s, address, application)) {
+                        serOverrides.add(override);
                     }
+                    Collections.sort(serOverrides, OverrideUtils.OVERRIDE_COMPARATOR);
+                    service2Overrides.put(s, serOverrides);
                 }
             }
         }

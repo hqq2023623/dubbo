@@ -39,11 +39,11 @@ public abstract class AbstractBenchmarkClient {
 
     private static long allRequestSum;
 
-    private static long allResponseTimeSum;
+    private static double allResponseTimeSum;
 
     private static long allErrorRequestSum;
 
-    private static long allErrorResponseTimeSum;
+    private static double allErrorResponseTimeSum;
 
     private static int runtime;
 

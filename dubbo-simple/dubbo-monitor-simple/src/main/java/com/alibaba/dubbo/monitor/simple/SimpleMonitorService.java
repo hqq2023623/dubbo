@@ -350,8 +350,8 @@ public class SimpleMonitorService implements MonitorService {
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(file));
                 try {
-                    int sum = 0;
-                    int cnt = 0;
+                    double sum = 0;
+                    double cnt = 0;
                     String line;
                     while ((line = reader.readLine()) != null) {
                         int index = line.indexOf(" ");

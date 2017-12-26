@@ -227,8 +227,11 @@ public class SerializerFactory extends AbstractSerializerFactory {
     private Deserializer _hashMapDeserializer;
     private Deserializer _arrayListDeserializer;
     private HashMap _cachedSerializerMap;
+    private Object _cachedSerializerMapLock = new Object();
     private HashMap _cachedDeserializerMap;
+    private Object _cachedDeserializerMapLock = new Object();
     private HashMap _cachedTypeDeserializerMap;
+    private Object _cachedTypeDeserializerMapLock = new Object();
     private boolean _isAllowNonSerializable;
 
     public SerializerFactory() {
@@ -302,9 +305,7 @@ public class SerializerFactory extends AbstractSerializerFactory {
             return serializer;
 
         if (_cachedSerializerMap != null) {
-            synchronized (_cachedSerializerMap) {
-                serializer = (Serializer) _cachedSerializerMap.get(cl);
-            }
+            serializer = (Serializer) _cachedSerializerMap.get(cl);
 
             if (serializer != null)
                 return serializer;
@@ -373,8 +374,11 @@ public class SerializerFactory extends AbstractSerializerFactory {
         if (serializer == null)
             serializer = getDefaultSerializer(cl);
 
-        if (_cachedSerializerMap == null)
-            _cachedSerializerMap = new HashMap(8);
+        synchronized (_cachedSerializerMapLock) {
+            if(_cachedSerializerMap == null) {
+                _cachedSerializerMap = new HashMap(8);
+            }
+        }
 
         synchronized (_cachedSerializerMap) {
             _cachedSerializerMap.put(cl, serializer);
@@ -417,15 +421,14 @@ public class SerializerFactory extends AbstractSerializerFactory {
         if (deserializer != null)
             return deserializer;
 
-        if (_cachedDeserializerMap != null) {
+
+        if(_cachedDeserializerMap != null) {
             synchronized (_cachedDeserializerMap) {
                 deserializer = (Deserializer) _cachedDeserializerMap.get(cl);
             }
-
             if (deserializer != null)
                 return deserializer;
         }
-
 
         for (int i = 0;
              deserializer == null && _factories != null && i < _factories.size();
@@ -461,8 +464,11 @@ public class SerializerFactory extends AbstractSerializerFactory {
         else
             deserializer = getDefaultDeserializer(cl);
 
-        if (_cachedDeserializerMap == null)
-            _cachedDeserializerMap = new HashMap(8);
+        synchronized (_cachedDeserializerMapLock) {
+            if(_cachedDeserializerMap == null) {
+                _cachedDeserializerMap = new HashMap(8);
+            }
+        }
 
         synchronized (_cachedDeserializerMap) {
             _cachedDeserializerMap.put(cl, deserializer);
@@ -623,7 +629,7 @@ public class SerializerFactory extends AbstractSerializerFactory {
 
         Deserializer deserializer;
 
-        if (_cachedTypeDeserializerMap != null) {
+        if(_cachedTypeDeserializerMap != null) {
             synchronized (_cachedTypeDeserializerMap) {
                 deserializer = (Deserializer) _cachedTypeDeserializerMap.get(type);
             }
@@ -631,7 +637,6 @@ public class SerializerFactory extends AbstractSerializerFactory {
             if (deserializer != null)
                 return deserializer;
         }
-
 
         deserializer = (Deserializer) _staticTypeMap.get(type);
         if (deserializer != null)
@@ -655,10 +660,13 @@ public class SerializerFactory extends AbstractSerializerFactory {
             }
         }
 
-        if (deserializer != null) {
-            if (_cachedTypeDeserializerMap == null)
+        synchronized (_cachedTypeDeserializerMapLock) {
+            if(_cachedTypeDeserializerMap == null) {
                 _cachedTypeDeserializerMap = new HashMap(8);
+            }
+        }
 
+        if (deserializer != null) {
             synchronized (_cachedTypeDeserializerMap) {
                 _cachedTypeDeserializerMap.put(type, deserializer);
             }

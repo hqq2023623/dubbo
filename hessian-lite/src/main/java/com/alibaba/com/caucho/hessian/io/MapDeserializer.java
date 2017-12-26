@@ -125,7 +125,8 @@ public class MapDeserializer extends AbstractMapDeserializer {
             throws IOException {
         Map map = createMap();
 
-        int ref = in.addRef(map);
+//        int ref = in.addRef(map);
+        in.addRef(map);
 
         for (int i = 0; i < fieldNames.length; i++) {
             String name = fieldNames[i];

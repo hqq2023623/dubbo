@@ -108,7 +108,7 @@ public abstract class AbstractMonitorFactory implements MonitorFactory {
         }
     }
 
-    class MonitorListener implements Runnable {
+    static class MonitorListener implements Runnable {
 
         private String key;
 
