@@ -1149,6 +1149,8 @@ public class HessianDebugState implements Hessian2Constants {
             }
 
             switch (_utfState) {
+                default :
+                    break;
                 case TOP:
                     if (ch < 0x80) {
                         _length--;
@@ -1164,6 +1166,7 @@ public class HessianDebugState implements Hessian2Constants {
                     break;
 
                 case UTF_2_1:
+                    break;
                 case UTF_3_2:
                     _ch += ch & 0x3f;
                     _value.append(_ch);

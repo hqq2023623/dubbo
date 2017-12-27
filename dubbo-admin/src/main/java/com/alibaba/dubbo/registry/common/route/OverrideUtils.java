@@ -101,14 +101,14 @@ public class OverrideUtils {
         if (provider == null || overrides == null) {
             return;
         }
-        List<Override> result = new ArrayList<Override>(overrides.size());
+//        List<Override> result = new ArrayList<Override>(overrides.size());
         for (Override override : overrides) {
             if (!override.isEnabled()) {
                 continue;
             }
-            if (override.isMatch(provider)) {
-                result.add(override);
-            }
+//            if (override.isMatch(provider)) {
+//                result.add(override);
+//            }
             if (override.isUniqueMatch(provider)) {
                 provider.setOverride(override);
             }

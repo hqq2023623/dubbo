@@ -674,6 +674,8 @@ public class ThriftCodec implements Codec2 {
             // message
             protocol.writeMessageBegin(message);
             switch (message.type) {
+                default :
+                    break;
                 case TMessageType.EXCEPTION:
                     applicationException.write(protocol);
                     break;

@@ -204,11 +204,11 @@ public class JdkCompiler extends AbstractCompiler {
             Iterable<JavaFileObject> result = super.list(location, packageName, kinds, recurse);
 
             ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
-            List<URL> urlList = new ArrayList<URL>();
-            Enumeration<URL> e = contextClassLoader.getResources("com");
-            while (e.hasMoreElements()) {
-                urlList.add(e.nextElement());
-            }
+//            List<URL> urlList = new ArrayList<URL>();
+//            Enumeration<URL> e = contextClassLoader.getResources("com");
+//            while (e.hasMoreElements()) {
+//                urlList.add(e.nextElement());
+//            }
 
             ArrayList<JavaFileObject> files = new ArrayList<JavaFileObject>();
 

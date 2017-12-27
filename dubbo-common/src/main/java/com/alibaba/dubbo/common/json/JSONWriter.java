@@ -278,6 +278,7 @@ public class JSONWriter {
         switch (mState.type) {
             case OBJECT_VALUE:
                 mWriter.write(JSON.NULL);
+                break;
             case OBJECT:
                 mState.type = OBJECT_VALUE;
                 if (mState.itemCount++ > 0)

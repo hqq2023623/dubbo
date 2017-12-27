@@ -387,9 +387,9 @@ public class Routes extends Restful {
                 route.setEnabled(oldRoute.isEnabled());
                 routeService.updateRoute(route);
 
-                Set<String> usernames = new HashSet<String>();
-                usernames.add((String) context.get("operator"));
-                usernames.add(route.getUsername());
+//                Set<String> usernames = new HashSet<String>();
+//                usernames.add((String) context.get("operator"));
+//                usernames.add(route.getUsername());
                 //RelateUserUtils.addOwnersOfService(usernames, route.getService(), ownerDAO);
 
                 Map<String, Object> params = new HashMap<String, Object>();

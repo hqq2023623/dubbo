@@ -75,8 +75,8 @@ public class Configs extends Restful {
             if (configs.size() > 0) {
                 configDAO.update(configs);
 
-                Set<String> usernames = new HashSet<String>();
-                usernames.add(currentUser.getName());
+//                Set<String> usernames = new HashSet<String>();
+//                usernames.add(currentUser.getName());
 
                 Map<String, Object> params = new HashMap<String, Object>();
                 params.put("configs", configs);
