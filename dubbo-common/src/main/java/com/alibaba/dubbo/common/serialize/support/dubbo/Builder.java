@@ -137,7 +137,7 @@ public abstract class Builder<T> implements GenericDataFlags {
 
     private static final Map<String, Integer> mDescMap = new ConcurrentHashMap<String, Integer>();
 
-    public static ClassDescriptorMapper DEFAULT_CLASS_DESCRIPTOR_MAPPER = new ClassDescriptorMapper() {
+    public static final ClassDescriptorMapper DEFAULT_CLASS_DESCRIPTOR_MAPPER = new ClassDescriptorMapper() {
         public String getDescriptor(int index) {
             if (index < 0 || index >= mDescList.size())
                 return null;

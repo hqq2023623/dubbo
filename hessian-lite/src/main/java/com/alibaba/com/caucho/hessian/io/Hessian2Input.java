@@ -87,7 +87,7 @@ public class Hessian2Input
     private static final int SIZE = 256;
     private static final int GAP = 16;
     private static Field _detailMessageField;
-    private static boolean _isCloseStreamOnClose;
+    private boolean _isCloseStreamOnClose;
 
     static {
         try {
@@ -238,7 +238,7 @@ public class Hessian2Input
         int tag = read();
 
         if (tag != 'Z')
-            error("expected end of envelope at " + codeName(tag));
+            throw error("expected end of envelope at " + codeName(tag));
     }
 
     /**
@@ -404,7 +404,7 @@ public class Hessian2Input
         int tag = read();
 
         if (tag != 'Z')
-            error("expected end of reply at " + codeName(tag));
+            throw error("expected end of reply at " + codeName(tag));
     }
 
     /**
@@ -457,7 +457,7 @@ public class Hessian2Input
         int tag = read();
 
         if (tag != 'Z')
-            error("expected end of message at " + codeName(tag));
+            throw error("expected end of message at " + codeName(tag));
     }
 
     /**

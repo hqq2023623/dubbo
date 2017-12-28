@@ -38,8 +38,6 @@ import java.util.concurrent.CyclicBarrier;
  */
 public abstract class AbstractBenchmarkClient {
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
     private static long maxTPS = 0;
 
     private static long minTPS = 0;
@@ -84,6 +82,7 @@ public abstract class AbstractBenchmarkClient {
     Properties properties = ConfigUtils.getProperties();
 
     public void run(String[] args) throws Exception {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         final String serverIP = properties.getProperty("serverip");
         final int serverPort = Integer.parseInt(properties.getProperty("serverport"));

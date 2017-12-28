@@ -37,7 +37,7 @@ import java.util.regex.Pattern;
 public class ParseUtils {
 
     private static final ConcurrentMap<String, Pattern> REPLACE_PARAMETER_PATTERNS = new ConcurrentHashMap<String, Pattern>();
-    public static String METHOD_SPLIT = ",";
+    public static final String METHOD_SPLIT = ",";
     private static Pattern VARIABLE_PATTERN = Pattern.compile(
             "\\$\\s*\\{?\\s*([\\._0-9a-zA-Z]+)\\s*\\}?");
     private static Pattern QUERY_PATTERN = Pattern

@@ -203,7 +203,7 @@ public class JdkCompiler extends AbstractCompiler {
                 throws IOException {
             Iterable<JavaFileObject> result = super.list(location, packageName, kinds, recurse);
 
-            ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+//            ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
 //            List<URL> urlList = new ArrayList<URL>();
 //            Enumeration<URL> e = contextClassLoader.getResources("com");
 //            while (e.hasMoreElements()) {

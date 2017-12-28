@@ -615,6 +615,8 @@ public class JSON {
                                 index = tmp[1];
 
                                 switch (state) {
+                                    default:
+                                        break;
                                     case ARRAY_ITEM: {
                                         handler.arrayItemValue(index, value, false);
                                         break;

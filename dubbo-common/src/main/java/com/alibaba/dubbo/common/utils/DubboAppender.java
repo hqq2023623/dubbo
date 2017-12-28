@@ -24,9 +24,9 @@ import java.util.List;
 
 public class DubboAppender extends ConsoleAppender {
 
-    public static boolean available = false;
+    private static boolean available = false;
 
-    public static List<Log> logList = new ArrayList<Log>();
+    public static final List<Log> logList = new ArrayList<Log>();
 
     public static void doStart() {
         available = true;

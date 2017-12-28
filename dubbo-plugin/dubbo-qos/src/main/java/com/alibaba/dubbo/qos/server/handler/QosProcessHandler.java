@@ -39,7 +39,7 @@ public class QosProcessHandler extends ByteToMessageDecoder {
     
     private String welcome;
 
-    public static String prompt = "dubbo>";
+    public static final String prompt = "dubbo>";
     
     public QosProcessHandler(String welcome){
         this.welcome = welcome;

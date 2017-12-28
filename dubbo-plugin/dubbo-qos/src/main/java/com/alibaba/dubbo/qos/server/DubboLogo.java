@@ -17,7 +17,7 @@
 package com.alibaba.dubbo.qos.server;
 
 public class DubboLogo {
-    public static String dubbo =
+    public static final String dubbo =
             "  ████████▄  ███    █▄  ▀█████████▄  ▀█████████▄   ▄██████▄  \n" +
                     "  ███   ▀███ ███    ███   ███    ███   ███    ███ ███    ███ \n" +
                     "  ███    ███ ███    ███   ███    ███   ███    ███ ███    ███ \n" +

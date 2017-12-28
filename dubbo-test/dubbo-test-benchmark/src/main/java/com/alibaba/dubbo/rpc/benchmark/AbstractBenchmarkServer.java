@@ -29,13 +29,13 @@ import java.util.Date;
  */
 public abstract class AbstractBenchmarkServer {
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public void run(String[] args) throws Exception {
         if (args == null || args.length != 5) {
             throw new IllegalArgumentException(
                     "must give three args: listenPort | maxThreads | responseSize | transporter | serialization");
         }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         int listenPort = Integer.parseInt(args[0]);
         int maxThreads = Integer.parseInt(args[1]);
         final int responseSize = Integer.parseInt(args[2]);
