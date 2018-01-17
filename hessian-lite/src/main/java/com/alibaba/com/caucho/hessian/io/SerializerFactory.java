@@ -79,6 +79,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -226,12 +227,9 @@ public class SerializerFactory extends AbstractSerializerFactory {
     private ClassLoader _loader;
     private Deserializer _hashMapDeserializer;
     private Deserializer _arrayListDeserializer;
-    private HashMap _cachedSerializerMap;
-    private Object _cachedSerializerMapLock = new Object();
-    private HashMap _cachedDeserializerMap;
-    private Object _cachedDeserializerMapLock = new Object();
-    private HashMap _cachedTypeDeserializerMap;
-    private Object _cachedTypeDeserializerMapLock = new Object();
+    private ConcurrentHashMap _cachedSerializerMap;
+    private ConcurrentHashMap _cachedDeserializerMap;
+    private ConcurrentHashMap _cachedTypeDeserializerMap;
     private boolean _isAllowNonSerializable;
 
     public SerializerFactory() {
@@ -296,19 +294,21 @@ public class SerializerFactory extends AbstractSerializerFactory {
      * @param cl the class of the object that needs to be serialized.
      * @return a serializer object for the serialization.
      */
+    @Override
     public Serializer getSerializer(Class cl)
             throws HessianProtocolException {
         Serializer serializer;
 
         serializer = (Serializer) _staticSerializerMap.get(cl);
-        if (serializer != null)
+        if (serializer != null) {
             return serializer;
+        }
 
         if (_cachedSerializerMap != null) {
             serializer = (Serializer) _cachedSerializerMap.get(cl);
-
-            if (serializer != null)
+            if (serializer != null) {
                 return serializer;
+            }
         }
 
         for (int i = 0;
@@ -347,42 +347,33 @@ public class SerializerFactory extends AbstractSerializerFactory {
             }
 
             serializer = _collectionSerializer;
-        } else if (cl.isArray())
+        } else if (cl.isArray()) {
             serializer = new ArraySerializer();
-
-        else if (Throwable.class.isAssignableFrom(cl))
+        } else if (Throwable.class.isAssignableFrom(cl)) {
             serializer = new ThrowableSerializer(cl, getClassLoader());
-
-        else if (InputStream.class.isAssignableFrom(cl))
+        } else if (InputStream.class.isAssignableFrom(cl)) {
             serializer = new InputStreamSerializer();
-
-        else if (Iterator.class.isAssignableFrom(cl))
+        } else if (Iterator.class.isAssignableFrom(cl)) {
             serializer = IteratorSerializer.create();
-
-        else if (Enumeration.class.isAssignableFrom(cl))
+        } else if (Enumeration.class.isAssignableFrom(cl)) {
             serializer = EnumerationSerializer.create();
-
-        else if (Calendar.class.isAssignableFrom(cl))
+        } else if (Calendar.class.isAssignableFrom(cl)) {
             serializer = CalendarSerializer.create();
-
-        else if (Locale.class.isAssignableFrom(cl))
+        } else if (Locale.class.isAssignableFrom(cl)) {
             serializer = LocaleSerializer.create();
-
-        else if (Enum.class.isAssignableFrom(cl))
+        } else if (Enum.class.isAssignableFrom(cl)) {
             serializer = new EnumSerializer(cl);
+        }
 
-        if (serializer == null)
+        if (serializer == null) {
             serializer = getDefaultSerializer(cl);
-
-        synchronized (_cachedSerializerMapLock) {
-            if(_cachedSerializerMap == null) {
-                _cachedSerializerMap = new HashMap(8);
-            }
         }
 
-        synchronized (_cachedSerializerMap) {
-            _cachedSerializerMap.put(cl, serializer);
+        if (_cachedSerializerMap == null) {
+            _cachedSerializerMap = new ConcurrentHashMap(8);
         }
+
+        _cachedSerializerMap.put(cl, serializer);
 
         return serializer;
     }
@@ -421,11 +412,8 @@ public class SerializerFactory extends AbstractSerializerFactory {
         if (deserializer != null)
             return deserializer;
 
-
-        if(_cachedDeserializerMap != null) {
-            synchronized (_cachedDeserializerMap) {
-                deserializer = (Deserializer) _cachedDeserializerMap.get(cl);
-            }
+        if (_cachedDeserializerMap != null) {
+            deserializer = (Deserializer) _cachedDeserializerMap.get(cl);
             if (deserializer != null)
                 return deserializer;
         }
@@ -464,15 +452,10 @@ public class SerializerFactory extends AbstractSerializerFactory {
         else
             deserializer = getDefaultDeserializer(cl);
 
-        synchronized (_cachedDeserializerMapLock) {
-            if(_cachedDeserializerMap == null) {
-                _cachedDeserializerMap = new HashMap(8);
-            }
-        }
+        if (_cachedDeserializerMap == null)
+            _cachedDeserializerMap = new ConcurrentHashMap(8);
 
-        synchronized (_cachedDeserializerMap) {
-            _cachedDeserializerMap.put(cl, deserializer);
-        }
+        _cachedDeserializerMap.put(cl, deserializer);
 
         return deserializer;
     }
@@ -629,10 +612,8 @@ public class SerializerFactory extends AbstractSerializerFactory {
 
         Deserializer deserializer;
 
-        if(_cachedTypeDeserializerMap != null) {
-            synchronized (_cachedTypeDeserializerMap) {
-                deserializer = (Deserializer) _cachedTypeDeserializerMap.get(type);
-            }
+        if (_cachedTypeDeserializerMap != null) {
+            deserializer = (Deserializer) _cachedTypeDeserializerMap.get(type);
 
             if (deserializer != null)
                 return deserializer;
@@ -660,16 +641,11 @@ public class SerializerFactory extends AbstractSerializerFactory {
             }
         }
 
-        synchronized (_cachedTypeDeserializerMapLock) {
-            if(_cachedTypeDeserializerMap == null) {
-                _cachedTypeDeserializerMap = new HashMap(8);
-            }
-        }
-
         if (deserializer != null) {
-            synchronized (_cachedTypeDeserializerMap) {
-                _cachedTypeDeserializerMap.put(type, deserializer);
-            }
+            if (_cachedTypeDeserializerMap == null)
+                _cachedTypeDeserializerMap = new ConcurrentHashMap(8);
+
+            _cachedTypeDeserializerMap.put(type, deserializer);
         }
 
         return deserializer;
