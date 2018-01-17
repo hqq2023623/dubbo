@@ -59,9 +59,7 @@ public class WrappedChannelHandler implements ChannelHandlerDelegate {
 
     public void close() {
         try {
-            if (executor instanceof ExecutorService) {
-                ((ExecutorService) executor).shutdown();
-            }
+            executor.shutdown();
         } catch (Throwable t) {
             logger.warn("fail to destroy thread pool of server: " + t.getMessage(), t);
         }
