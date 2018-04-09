@@ -138,9 +138,9 @@ public class JavaDeserializer extends AbstractMapDeserializer {
         else if (boolean.class.equals(cl))
             return Boolean.FALSE;
         else if (byte.class.equals(cl))
-            return 0;
+            return Byte.valueOf("0");
         else if (short.class.equals(cl))
-            return 0;
+            return Short.valueOf("0");
         else if (char.class.equals(cl))
             return 0;
         else if (int.class.equals(cl))
