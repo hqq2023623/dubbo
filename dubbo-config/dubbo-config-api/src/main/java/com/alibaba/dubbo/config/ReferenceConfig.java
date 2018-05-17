@@ -349,7 +349,7 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
                 isJvmRefer = false;
             }
         } else {
-            isJvmRefer = isInjvm().booleanValue();
+            isJvmRefer = isInjvm();
         }
 
         if (isJvmRefer) {
